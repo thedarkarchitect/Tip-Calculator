@@ -65,6 +65,14 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun computeTipAndTotal() {
+        //backspacing on an empty base crashes the app this ssolved by
+        if(etBaseAmount.text.isEmpty()){
+            tvTipAmount.text = ""
+            tvTotalAmount.text = ""
+            return
+        }
+
+
         //get the value of the base and tip percent
         val baseAmount = etBaseAmount.text.toString().toDouble()
         val tipPercent = seekBarTip.progress
@@ -74,7 +82,8 @@ class MainActivity : AppCompatActivity() {
         val totalAmount = baseAmount + tipAmount
 
         //Update the UI
-        tvTipAmount.text = tipAmount.toString()//changes the tip amount to a string
-        tvTotalAmount.text = totalAmount.toString()//changes the total amount to a string
+        //format to get only 2 decimals
+        tvTipAmount.text = "%.2f".format(tipAmount)//changes the tip amount to a string
+        tvTotalAmount.text = "%.2f".format(totalAmount)//changes the total amount to a string
     }
 }
