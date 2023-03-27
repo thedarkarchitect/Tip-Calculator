@@ -20,6 +20,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var tvTipPercentLabel: TextView
     private lateinit var tvTipAmount: TextView
     private lateinit var tvTotalAmount: TextView
+    private lateinit var tvTipDescription: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,10 +30,13 @@ class MainActivity : AppCompatActivity() {
         tvTipAmount = findViewById(R.id.tvTipAmount)
         tvTipPercentLabel = findViewById(R.id.tvTipPercentLabel)
         tvTotalAmount = findViewById(R.id.tvTotalAmount)
+        tvTipDescription = findViewById(R.id.tvTipDescription)
 
         //setting the initial tip before the eventlistner
         seekBarTip.progress = INITIAL_TIP_PERCENT
         tvTipPercentLabel.text = "$INITIAL_TIP_PERCENT%"
+        //initial tip decription
+        updateTipDescription(INITIAL_TIP_PERCENT)
         //To change Tip percent using seekbar we create a listener in the seekbar
         seekBarTip.setOnSeekBarChangeListener(object: SeekBar.OnSeekBarChangeListener{
 //            the overriden methods give us functionality to tap into the event listener manipulation
@@ -62,6 +66,17 @@ class MainActivity : AppCompatActivity() {
 
         })
 
+    }
+
+    private fun updateTipDescription(tipPercent: Int) {
+        val tipDescription = when (tipPercent){
+            in 0..9 -> "Poor"
+            in 10 .. 1 -> "Acceptable"
+            in 15 .. 19 -> "Good"
+            in 20 .. 24 -> "Great"
+            else -> "Amazing"
+        }
+        tvTipDescription.text = tipDescription
     }
 
     private fun computeTipAndTotal() {
